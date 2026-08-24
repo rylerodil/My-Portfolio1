@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="style.css">
+
+    <title>Exam | Rylee Rodil</title>
+
+</head>
+
+<body>
+
+
+    <!-- ================= NAVIGATION ================= -->
+
+    <header>
+
+        <a href="index.html" class="logo">
+            Rylee Rodil
+        </a>
+
+        <nav>
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="quiz.html">
+                Quiz
+            </a>
+
+            <a href="laboratory.html">
+                Laboratory
+            </a>
+
+            <a href="exam.html" class="active">
+                Exam
+            </a>
+
+            <a href="contact.html">
+                Contact
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ================= EXAM PAGE ================= -->
+
+    <section class="portfolio-page">
+
+        <div class="page-title">
+
+            <h1>
+                My <span>Exams</span>
+            </h1>
+
+            <p>
+                This page contains my examination activities
+                and submitted exam pictures.
+            </p>
+
+        </div>
+
+
+        <!-- ================= UPLOAD BOX ================= -->
+
+        <div class="upload-container">
+
+            <div class="upload-icon">
+
+                <i class="fa-solid fa-file-signature"></i>
+
+            </div>
+
+
+            <h2>
+                Submit Your Exams
+            </h2>
+
+
+            <p>
+                Select one or multiple pictures of your completed exams.
+            </p>
+
+
+            <input
+                type="file"
+                id="examImage"
+                accept="image/*"
+                multiple>
+
+
+            <label
+                for="examImage"
+                class="upload-button">
+
+                <i class="fa-solid fa-images"></i>
+
+                Choose Pictures
+
+            </label>
+
+
+            <!-- PREVIEW -->
+
+            <div
+                id="examPreview"
+                class="preview-gallery">
+            </div>
+
+
+            <!-- SUBMIT -->
+
+            <button
+                class="submit-button"
+                onclick="submitExams()">
+
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                Submit Exams
+
+            </button>
+
+        </div>
+
+
+        <!-- ================= SUBMITTED EXAMS ================= -->
+
+        <div
+            class="submission-gallery"
+            id="examGallery">
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= IMAGE ZOOM MODAL ================= -->
+
+    <div
+        id="imageModal"
+        style="
+            display:none;
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,.92);
+            z-index:9999;
+            align-items:center;
+            justify-content:center;
+            padding:30px;
+        ">
+
+        <button
+            id="closeModal"
+            style="
+                position:absolute;
+                top:25px;
+                right:35px;
+                background:none;
+                color:white;
+                font-size:35px;
+                cursor:pointer;
+                z-index:10000;
+            ">
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+
+        <img
+            id="modalImage"
+            src=""
+            alt="Zoomed Image"
+            style="
+                max-width:90%;
+                max-height:90%;
+                object-fit:contain;
+                border-radius:12px;
+                box-shadow:0 0 50px rgba(168,85,247,.4);
+            ">
+
+    </div>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        const examImage =
+            document.getElementById("examImage");
+
+        const examPreview =
+            document.getElementById("examPreview");
+
+        const examGallery =
+            document.getElementById("examGallery");
+
+
+        let selectedExams = [];
+
+
+        /* =====================================================
+           LOAD SAVED EXAMS
+        ===================================================== */
+
+        function loadExams() {
+
+            const savedExams =
+                JSON.parse(
+                    localStorage.getItem(
+                        "examSubmissions"
+                    ) || "[]"
+                );
+
+
+            savedExams.forEach(
+                function(imageData) {
+
+                    createExamCard(
+                        imageData
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           CREATE EXAM CARD
+        ===================================================== */
+
+        function createExamCard(
+            imageData
+        ) {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "submission-card";
+
+
+            card.innerHTML = `
+
+                <img
+                    src="${imageData}"
+                    alt="Exam Submission"
+                    class="zoomable-image">
+
+                <h3>
+                    Exam Submission
+                </h3>
+
+                <p>
+                    Successfully submitted.
+                </p>
+
+                <button
+                    class="delete-button">
+
+                    <i class="fa-solid fa-trash"></i>
+
+                    Remove
+
+                </button>
+
+            `;
+
+
+            const image =
+                card.querySelector("img");
+
+
+            const deleteButton =
+                card.querySelector(".delete-button");
+
+
+            /* =================================================
+               ZOOM PICTURE
+            ================================================= */
+
+            image.addEventListener(
+                "click",
+                function() {
+
+                    openImageModal(
+                        imageData
+                    );
+
+                }
+            );
+
+
+            /* =================================================
+               DELETE CONFIRMATION
+            ================================================= */
+
+            deleteButton.addEventListener(
+                "click",
+                function() {
+
+                    const answer =
+                        confirm(
+                            "Are you sure you want to delete this exam picture?"
+                        );
+
+
+                    if (!answer) {
+
+                        return;
+
+                    }
+
+
+                    card.remove();
+
+
+                    removeExamFromStorage(
+                        imageData
+                    );
+
+                }
+            );
+
+
+            examGallery.appendChild(
+                card
+            );
+
+        }
+
+
+        /* =====================================================
+           REMOVE EXAM FROM STORAGE
+        ===================================================== */
+
+        function removeExamFromStorage(
+            imageData
+        ) {
+
+            let savedExams =
+                JSON.parse(
+                    localStorage.getItem(
+                        "examSubmissions"
+                    ) || "[]"
+                );
+
+
+            savedExams =
+                savedExams.filter(
+                    function(item) {
+
+                        return item !== imageData;
+
+                    }
+                );
+
+
+            localStorage.setItem(
+                "examSubmissions",
+                JSON.stringify(
+                    savedExams
+                )
+            );
+
+        }
+
+
+        /* =====================================================
+           SELECT MULTIPLE EXAM PICTURES
+        ===================================================== */
+
+        examImage.addEventListener(
+            "change",
+            function() {
+
+                selectedExams =
+                    Array.from(this.files);
+
+
+                examPreview.innerHTML =
+                    "";
+
+
+                selectedExams.forEach(
+                    function(file) {
+
+                        if (
+                            !file.type.startsWith("image/")
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        const reader =
+                            new FileReader();
+
+
+                        reader.onload =
+                            function(event) {
+
+                                const img =
+                                    document.createElement("img");
+
+
+                                img.src =
+                                    event.target.result;
+
+
+                                img.alt =
+                                    "Exam Preview";
+
+
+                                examPreview.appendChild(
+                                    img
+                                );
+
+                            };
+
+
+                        reader.readAsDataURL(
+                            file
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           SUBMIT EXAMS
+        ===================================================== */
+
+        function submitExams() {
+
+            if (
+                selectedExams.length === 0
+            ) {
+
+                alert(
+                    "Please choose at least one exam picture."
+                );
+
+                return;
+
+            }
+
+
+            let savedExams =
+                JSON.parse(
+                    localStorage.getItem(
+                        "examSubmissions"
+                    ) || "[]"
+                );
+
+
+            let completed = 0;
+
+
+            selectedExams.forEach(
+                function(file) {
+
+                    const reader =
+                        new FileReader();
+
+
+                    reader.onload =
+                        function(event) {
+
+                            const imageData =
+                                event.target.result;
+
+
+                            savedExams.push(
+                                imageData
+                            );
+
+
+                            createExamCard(
+                                imageData
+                            );
+
+
+                            completed++;
+
+
+                            if (
+                                completed ===
+                                selectedExams.length
+                            ) {
+
+                                localStorage.setItem(
+                                    "examSubmissions",
+                                    JSON.stringify(
+                                        savedExams
+                                    )
+                                );
+
+
+                                alert(
+                                    selectedExams.length +
+                                    " exam picture(s) submitted successfully!"
+                                );
+
+
+                                examImage.value =
+                                    "";
+
+                                selectedExams =
+                                    [];
+
+                                examPreview.innerHTML =
+                                    "";
+
+                            }
+
+                        };
+
+
+                    reader.readAsDataURL(
+                        file
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           IMAGE ZOOM MODAL
+        ===================================================== */
+
+        const imageModal =
+            document.getElementById("imageModal");
+
+        const modalImage =
+            document.getElementById("modalImage");
+
+        const closeModal =
+            document.getElementById("closeModal");
+
+
+        function openImageModal(
+            imageData
+        ) {
+
+            modalImage.src =
+                imageData;
+
+            imageModal.style.display =
+                "flex";
+
+        }
+
+
+        closeModal.addEventListener(
+            "click",
+            function() {
+
+                imageModal.style.display =
+                    "none";
+
+            }
+        );
+
+
+        imageModal.addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target === imageModal
+                ) {
+
+                    imageModal.style.display =
+                        "none";
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           ESC KEY CLOSE
+        ===================================================== */
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    imageModal.style.display =
+                        "none";
+
+                }
+
+            }
+        );
+
+
+        /* LOAD SAVED EXAMS */
+
+        loadExams();
+
+    </script>
+
+</body>
+
+</html>
