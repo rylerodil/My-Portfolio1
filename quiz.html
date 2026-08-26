@@ -1,565 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <link rel="stylesheet"
-          href="style.css">
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
     <title>Quiz | Rylee Rodil</title>
-
 </head>
-
 <body>
-
-
     <!-- ================= NAVIGATION ================= -->
-
     <header>
-
-        <a href="index.html" class="logo">
-            Rylee Rodil
-        </a>
-
+        <a href="index.html" class="logo">Rylee Rodil</a>
         <nav>
-
-            <a href="index.html">
-                Home
-            </a>
-
-            <a href="quiz.html" class="active">
-                Quiz
-            </a>
-
-            <a href="laboratory.html">
-                Laboratory
-            </a>
-
-            <a href="exam.html">
-                Exam
-            </a>
-
-            <a href="contact.html">
-                Contact
-            </a>
-
+            <a href="index.html">Home</a>
+            <a href="quiz.html" class="active">Quiz</a>
+            <a href="laboratory.html">Laboratory</a>
+            <a href="exam.html">Exam</a>
+            <a href="contact.html">Contact</a>
         </nav>
-
     </header>
-
-
     <!-- ================= QUIZ PAGE ================= -->
-
     <section class="portfolio-page">
-
         <div class="page-title">
-
-            <h1>
-                My <span>Quizzes</span>
-            </h1>
-
-            <p>
-                This page contains my quiz activities
-                and submitted quiz pictures.
-            </p>
-
+            <h1>My <span>Quizzes</span></h1>
+            <p>This page contains my quiz activities and submitted quiz pictures.</p>
         </div>
-
-
         <!-- ================= UPLOAD BOX ================= -->
-
         <div class="upload-container">
-
             <div class="upload-icon">
-
                 <i class="fa-solid fa-file-circle-plus"></i>
-
             </div>
-
-
-            <h2>
-                Submit Your Quizzes
-            </h2>
-
-
-            <p>
-                Select one or multiple pictures of your completed quizzes.
-            </p>
-
-
-            <input
-                type="file"
-                id="quizImage"
-                accept="image/*"
-                multiple>
-
-
-            <label
-                for="quizImage"
-                class="upload-button">
-
-                <i class="fa-solid fa-images"></i>
-
-                Choose Pictures
-
+            <h2>Submit Your Quizzes</h2>
+            <p>Select one or multiple pictures of your completed quizzes.</p>
+            <input type="file" id="quizImage" accept="image/*" multiple />
+            <label for="quizImage" class="upload-button">
+                <i class="fa-solid fa-images"></i> Choose Pictures
             </label>
-
-
             <!-- PREVIEW -->
-
-            <div
-                id="previewContainer"
-                class="preview-gallery">
-            </div>
-
-
+            <div id="previewContainer" class="preview-gallery"></div>
             <!-- SUBMIT -->
-
-            <button
-                class="submit-button"
-                onclick="submitQuizzes()">
-
-                <i class="fa-solid fa-cloud-arrow-up"></i>
-
-                Submit Quizzes
-
+            <button class="submit-button" onclick="submitQuizzes()">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Submit Quizzes
             </button>
-
         </div>
-
-
         <!-- ================= SUBMITTED QUIZZES ================= -->
-
-        <div
-            class="submission-gallery"
-            id="quizGallery">
-
-        </div>
-
+        <div class="submission-gallery" id="quizGallery"></div>
     </section>
-
-
     <!-- ================= IMAGE ZOOM MODAL ================= -->
-
-    <div
-        id="imageModal"
-        style="
-            display:none;
-            position:fixed;
-            inset:0;
-            background:rgba(0,0,0,.92);
-            z-index:9999;
-            align-items:center;
-            justify-content:center;
-            padding:30px;
-        ">
-
-        <button
-            id="closeModal"
-            style="
-                position:absolute;
-                top:25px;
-                right:35px;
-                background:none;
-                color:white;
-                font-size:35px;
-                cursor:pointer;
-                z-index:10000;
-            ">
-
+    <div id="imageModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:9999; align-items:center; justify-content:center; padding:30px;">
+        <button id="closeModal" style="position:absolute; top:25px; right:35px; background:none; color:white; font-size:35px; cursor:pointer; z-index:10000;">
             <i class="fa-solid fa-xmark"></i>
-
         </button>
-
-
-        <img
-            id="modalImage"
-            src=""
-            alt="Zoomed Image"
-            style="
-                max-width:90%;
-                max-height:90%;
-                object-fit:contain;
-                border-radius:12px;
-                box-shadow:0 0 50px rgba(168,85,247,.4);
-            ">
-
+        <img id="modalImage" src="" alt="Zoomed Image" style="max-width:90%; max-height:90%; object-fit:contain; border-radius:12px; box-shadow:0 0 50px rgba(168,85,247,.4);" />
     </div>
-
-
     <!-- ================= JAVASCRIPT ================= -->
-
     <script>
-
-        const quizImage =
-            document.getElementById("quizImage");
-
-        const previewContainer =
-            document.getElementById("previewContainer");
-
-        const quizGallery =
-            document.getElementById("quizGallery");
-
-
+        const quizImage = document.getElementById("quizImage");
+        const previewContainer = document.getElementById("previewContainer");
+        const quizGallery = document.getElementById("quizGallery");
         let selectedImages = [];
 
-
-        /* =====================================================
-           LOAD SAVED QUIZZES
-        ===================================================== */
-
+        /* LOAD SAVED QUIZZES */
         function loadQuizzes() {
-
-            const savedQuizzes =
-                JSON.parse(
-                    localStorage.getItem("quizSubmissions") || "[]"
-                );
-
-
+            const savedQuizzes = JSON.parse(localStorage.getItem("quizSubmissions") || "[]");
             savedQuizzes.forEach(function(imageData) {
-
                 createQuizCard(imageData);
-
             });
-
         }
 
-
-        /* =====================================================
-           CREATE QUIZ CARD
-        ===================================================== */
-
+        /* CREATE QUIZ CARD */
         function createQuizCard(imageData) {
-
-            const card =
-                document.createElement("div");
-
-            card.className =
-                "submission-card";
-            <div id="imageContainer"></div>
-        <button onclick="showPicture()">Load Picture</button>
-           img.src = "Screenshot 2026-08-26 141016.png";
-
-            
-
+            const card = document.createElement("div");
+            card.className = "submission-card";
 
             card.innerHTML = `
-
-                <img
-                    src="${imageData}"
-                    alt="Quiz Submission"
-                    class="zoomable-image">
-
-                <h3>
-                    Quiz Submission
-                </h3>
-
-                <p>
-                    Successfully submitted.
-                </p>
-
-                <button
-                    class="delete-button">
-
-                    <i class="fa-solid fa-trash"></i>
-
-                    Remove
-
+                <img src="${imageData}" alt="Quiz Submission" class="zoomable-image" />
+                <h3>Quiz Submission</h3>
+                <p>Successfully submitted.</p>
+                <button class="delete-button">
+                    <i class="fa-solid fa-trash"></i> Remove
                 </button>
-
             `;
 
-
-            const image =
-                card.querySelector("img");
-
-
-            const deleteButton =
-                card.querySelector(".delete-button");
-
+            const image = card.querySelector("img");
+            const deleteButton = card.querySelector(".delete-button");
 
             /* ZOOM */
-
             image.addEventListener("click", function() {
-
                 openImageModal(imageData);
-
             });
 
-
-            /* DELETE CONFIRMATION */
-
-            deleteButton.addEventListener(
-                "click",
-                function() {
-
-                    const answer =
-                        confirm(
-                            "Are you sure you want to delete this quiz picture?"
-                        );
-
-
-                    if (!answer) {
-                        return;
-                    }
-
-
-                    card.remove();
-
-                    removeQuizFromStorage(imageData);
-
-                }
-            );
-
+            /* DELETE */
+            deleteButton.addEventListener("click", function() {
+                const answer = confirm("Are you sure you want to delete this quiz picture?");
+                if (!answer) return;
+                card.remove();
+                removeQuizFromStorage(imageData);
+            });
 
             quizGallery.appendChild(card);
-
         }
 
-
-        /* =====================================================
-           REMOVE QUIZ FROM LOCAL STORAGE
-        ===================================================== */
-
+        /* REMOVE QUIZ FROM STORAGE */
         function removeQuizFromStorage(imageData) {
-
-            let savedQuizzes =
-                JSON.parse(
-                    localStorage.getItem("quizSubmissions") || "[]"
-                );
-
-
-            savedQuizzes =
-                savedQuizzes.filter(
-                    function(item) {
-
-                        return item !== imageData;
-
-                    }
-                );
-
-
-            localStorage.setItem(
-                "quizSubmissions",
-                JSON.stringify(savedQuizzes)
-            );
-
+            let savedQuizzes = JSON.parse(localStorage.getItem("quizSubmissions") || "[]");
+            savedQuizzes = savedQuizzes.filter(function(item) {
+                return item !== imageData;
+            });
+            localStorage.setItem("quizSubmissions", JSON.stringify(savedQuizzes));
         }
 
+        /* SELECT IMAGES */
+        quizImage.addEventListener("change", function() {
+            selectedImages = Array.from(this.files);
+            previewContainer.innerHTML = "";
+            selectedImages.forEach(function(file) {
+                if (!file.type.startsWith("image/")) return;
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = document.createElement("img");
+                    img.src = event.target.result;
+                    img.alt = "Quiz Preview";
+                    previewContainer.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
 
-        /* =====================================================
-           SELECT IMAGES
-        ===================================================== */
-
-        quizImage.addEventListener(
-            "change",
-            function() {
-
-                selectedImages =
-                    Array.from(this.files);
-
-
-                previewContainer.innerHTML = "";
-
-
-                selectedImages.forEach(
-                    function(file) {
-
-                        if (!file.type.startsWith("image/")) {
-                            return;
-                        }
-
-
-                        const reader =
-                            new FileReader();
-
-
-                        reader.onload =
-                            function(event) {
-
-                                const img =
-                                    document.createElement("img");
-
-
-                                img.src =
-                                    event.target.result;
-
-
-                                img.alt =
-                                    "Quiz Preview";
-
-
-                                previewContainer.appendChild(img);
-
-                            };
-
-
-                        reader.readAsDataURL(file);
-
-                    }
-                );
-
-            }
-        );
-
-
-        /* =====================================================
-           SUBMIT QUIZZES
-        ===================================================== */
-
+        /* SUBMIT QUIZZES */
         function submitQuizzes() {
-
             if (selectedImages.length === 0) {
-
-                alert(
-                    "Please choose at least one quiz picture."
-                );
-
+                alert("Please choose at least one quiz picture.");
                 return;
-
             }
-
-
-            let savedQuizzes =
-                JSON.parse(
-                    localStorage.getItem("quizSubmissions") || "[]"
-                );
-
-
+            let savedQuizzes = JSON.parse(localStorage.getItem("quizSubmissions") || "[]");
             let completed = 0;
-
-
-            selectedImages.forEach(
-                function(file) {
-
-                    const reader =
-                        new FileReader();
-
-
-                    reader.onload =
-                        function(event) {
-
-                            const imageData =
-                                event.target.result;
-
-
-                            savedQuizzes.push(
-                                imageData
-                            );
-
-
-                            createQuizCard(
-                                imageData
-                            );
-
-
-                            completed++;
-
-
-                            if (
-                                completed ===
-                                selectedImages.length
-                            ) {
-
-                                localStorage.setItem(
-                                    "quizSubmissions",
-                                    JSON.stringify(savedQuizzes)
-                                );
-
-
-                                alert(
-                                    selectedImages.length +
-                                    " quiz picture(s) submitted successfully!"
-                                );
-
-
-                                quizImage.value =
-                                    "";
-
-                                selectedImages =
-                                    [];
-
-                                previewContainer.innerHTML =
-                                    "";
-
-                            }
-
-                        };
-
-
-                    reader.readAsDataURL(file);
-
-                }
-            );
-
+            selectedImages.forEach(function(file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const imageData = event.target.result;
+                    savedQuizzes.push(imageData);
+                    createQuizCard(imageData);
+                    completed++;
+                    if (completed === selectedImages.length) {
+                        localStorage.setItem("quizSubmissions", JSON.stringify(savedQuizzes));
+                        alert(selectedImages.length + " quiz picture(s) submitted successfully!");
+                        quizImage.value = "";
+                        selectedImages = [];
+                        previewContainer.innerHTML = "";
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
         }
 
-
-        /* =====================================================
-           IMAGE MODAL
-        ===================================================== */
-
-        const imageModal =
-            document.getElementById("imageModal");
-
-        const modalImage =
-            document.getElementById("modalImage");
-
-        const closeModal =
-            document.getElementById("closeModal");
-
+        /* IMAGE MODAL */
+        const imageModal = document.getElementById("imageModal");
+        const modalImage = document.getElementById("modalImage");
+        const closeModal = document.getElementById("closeModal");
 
         function openImageModal(imageData) {
-
-            modalImage.src =
-                imageData;
-
-            imageModal.style.display =
-                "flex";
-
+            modalImage.src = imageData;
+            imageModal.style.display = "flex";
         }
 
+        closeModal.addEventListener("click", function() {
+            imageModal.style.display = "none";
+        });
 
-        closeModal.addEventListener(
-            "click",
-            function() {
-
-                imageModal.style.display =
-                    "none";
-
+        imageModal.addEventListener("click", function(event) {
+            if (event.target === imageModal) {
+                imageModal.style.display = "none";
             }
-        );
+        });
 
-
-        imageModal.addEventListener(
-            "click",
-            function(event) {
-
-                if (event.target === imageModal) {
-
-                    imageModal.style.display =
-                        "none";
-
-                }
-
-            }
-        );
-
-
-        /* LOAD */
-
+        /* LOAD EXISTING QUIZZES ON PAGE LOAD */
         loadQuizzes();
-
     </script>
-
 </body>
-
 </html>
