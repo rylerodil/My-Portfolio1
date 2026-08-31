@@ -1,22 +1,11 @@
-/* =====================================================
-   RYLEE RODIL PORTFOLIO
-   FILE MANAGEMENT SYSTEM
-===================================================== */
 
-
-/* =====================================================
-   DATABASE SETTINGS
-===================================================== */
 
 const DB_NAME = "RyleePortfolioDB";
 const DB_VERSION = 1;
 const STORE_NAME = "files";
 
 
-/* =====================================================
-   PERMANENT PORTFOLIO FILES
-   These files are stored in GitHub Repository
-===================================================== */
+
 
 const permanentFiles = {
 
@@ -38,25 +27,14 @@ const permanentFiles = {
 
     exam: [
 
-        /*
-        Example:
-
-        {
-            name: "Exam 1",
-            file: "exam1.pdf",
-            type: "application/pdf"
-        }
-
-        */
+       
 
     ]
 
 };
 
 
-/* =====================================================
-   OPEN DATABASE
-===================================================== */
+
 
 function openDatabase() {
 
@@ -110,9 +88,7 @@ function openDatabase() {
 }
 
 
-/* =====================================================
-   ADD FILE
-===================================================== */
+
 
 async function addFile(file, category) {
 
@@ -176,9 +152,7 @@ async function addFile(file, category) {
 }
 
 
-/* =====================================================
-   GET FILES
-===================================================== */
+
 
 async function getFiles(category) {
 
@@ -243,9 +217,7 @@ async function getFiles(category) {
 }
 
 
-/* =====================================================
-   DELETE FILE
-===================================================== */
+
 
 async function deleteFile(id) {
 
@@ -295,9 +267,7 @@ async function deleteFile(id) {
 }
 
 
-/* =====================================================
-   FORMAT FILE SIZE
-===================================================== */
+
 
 function formatFileSize(bytes) {
 
@@ -340,9 +310,7 @@ function formatFileSize(bytes) {
 }
 
 
-/* =====================================================
-   GET FILE ICON
-===================================================== */
+
 
 function getFileIcon(type, name) {
 
@@ -456,9 +424,7 @@ function getFileIcon(type, name) {
 }
 
 
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
+
 
 function escapeHTML(text) {
 
@@ -487,9 +453,7 @@ function escapeHTML(text) {
 }
 
 
-/* =====================================================
-   GET FILE EXTENSION
-===================================================== */
+
 
 function getFileExtension(name) {
 
@@ -509,9 +473,7 @@ function getFileExtension(name) {
 }
 
 
-/* =====================================================
-   OPEN PERMANENT FILE
-===================================================== */
+
 
 function openPermanentFile(file) {
 
@@ -557,9 +519,7 @@ function openPermanentFile(file) {
     content.innerHTML = "";
 
 
-    /* =================================================
-       IMAGE
-    ================================================= */
+  
 
     if (
         file.type &&
@@ -599,7 +559,7 @@ function openPermanentFile(file) {
             "zoom-in";
 
 
-        /* Zoom when clicked */
+
 
         image.onclick =
             function () {
@@ -654,9 +614,7 @@ function openPermanentFile(file) {
     }
 
 
-    /* =================================================
-       PDF
-    ================================================= */
+
 
     else if (
         file.type ===
@@ -700,9 +658,7 @@ function openPermanentFile(file) {
     }
 
 
-    /* =================================================
-       OTHER FILE TYPES
-    ================================================= */
+
 
     else {
 
@@ -764,9 +720,7 @@ function openPermanentFile(file) {
     );
 
 
-    /* =================================================
-       CLOSE MODAL
-    ================================================= */
+
 
     function closeViewer() {
 
@@ -812,9 +766,7 @@ function openPermanentFile(file) {
 }
 
 
-/* =====================================================
-   OPEN LOCAL FILE
-===================================================== */
+
 
 function openFileViewer(file) {
 
@@ -866,9 +818,7 @@ function openFileViewer(file) {
         );
 
 
-    /* =================================================
-       IMAGE
-    ================================================= */
+
 
     if (
         file.type &&
@@ -909,9 +859,7 @@ function openFileViewer(file) {
     }
 
 
-    /* =================================================
-       PDF
-    ================================================= */
+
 
     else if (
         file.type ===
@@ -952,9 +900,7 @@ function openFileViewer(file) {
     }
 
 
-    /* =================================================
-       TEXT
-    ================================================= */
+
 
     else if (
         file.type &&
@@ -992,9 +938,7 @@ function openFileViewer(file) {
     }
 
 
-    /* =================================================
-       HTML / CSS / JS
-    ================================================= */
+
 
     else if (
 
@@ -1043,9 +987,7 @@ function openFileViewer(file) {
     }
 
 
-    /* =================================================
-       UNSUPPORTED
-    ================================================= */
+   
 
     else {
 
@@ -1087,9 +1029,6 @@ function openFileViewer(file) {
     );
 
 
-    /* =================================================
-       CLOSE VIEWER
-    ================================================= */
 
     function closeViewer() {
 
@@ -1140,9 +1079,6 @@ function openFileViewer(file) {
 }
 
 
-/* =====================================================
-   CREATE FILE CARD
-===================================================== */
 
 function createFileCard(
     file,
@@ -1178,9 +1114,6 @@ function createFileCard(
         );
 
 
-    /* =================================================
-       IMAGE PREVIEW
-    ================================================= */
 
     let previewHTML = "";
 
@@ -1228,9 +1161,7 @@ function createFileCard(
     }
 
 
-    /* =================================================
-       CARD CONTENT
-    ================================================= */
+
 
     card.innerHTML = `
 
@@ -1334,9 +1265,6 @@ function createFileCard(
     `;
 
 
-    /* =================================================
-       VIEW BUTTON
-    ================================================= */
 
     const viewButton =
         card.querySelector(
@@ -1364,9 +1292,7 @@ function createFileCard(
         };
 
 
-    /* =================================================
-       IMAGE CLICK
-    ================================================= */
+
 
     const image =
         card.querySelector(
@@ -1396,7 +1322,7 @@ function createFileCard(
             };
 
 
-        /* Prevent broken image from looking bad */
+
 
         image.onerror =
             function () {
@@ -1409,9 +1335,7 @@ function createFileCard(
     }
 
 
-    /* =================================================
-       DELETE BUTTON
-    ================================================= */
+
 
     if (!isPermanent) {
 
@@ -1476,9 +1400,7 @@ function createFileCard(
 }
 
 
-/* =====================================================
-   INITIALIZE FILE PAGE
-===================================================== */
+
 
 async function initializeFilePage() {
 
@@ -1522,18 +1444,14 @@ async function initializeFilePage() {
     }
 
 
-    /* =================================================
-       RENDER FILES
-    ================================================= */
+
 
     async function renderFiles() {
 
         grid.innerHTML = "";
 
 
-        /* =================================================
-           GET LOCAL FILES
-        ================================================= */
+
 
         const localFiles =
             await getFiles(
@@ -1541,19 +1459,13 @@ async function initializeFilePage() {
             );
 
 
-        /* =================================================
-           GET PERMANENT FILES
-        ================================================= */
-
         const permanent =
             permanentFiles[
                 category
             ] || [];
 
 
-        /* =================================================
-           COMBINE FILES
-        ================================================= */
+
 
         const files = [
 
@@ -1572,9 +1484,7 @@ async function initializeFilePage() {
         ];
 
 
-        /* =================================================
-           FILE COUNT
-        ================================================= */
+
 
         count.textContent =
 
@@ -1585,9 +1495,6 @@ async function initializeFilePage() {
             } saved`;
 
 
-        /* =================================================
-           EMPTY STATE
-        ================================================= */
 
         if (
             files.length === 0
@@ -1624,9 +1531,7 @@ async function initializeFilePage() {
         }
 
 
-        /* =================================================
-           CREATE CARDS
-        ================================================= */
+
 
         files.forEach(
             function (
@@ -1647,7 +1552,7 @@ async function initializeFilePage() {
                 );
 
 
-                /* Activate reveal animation */
+   
 
                 setTimeout(
                     function () {
@@ -1668,9 +1573,7 @@ async function initializeFilePage() {
     }
 
 
-    /* =================================================
-       FILE INPUT
-    ================================================= */
+
 
     input.addEventListener(
         "change",
@@ -1697,9 +1600,6 @@ async function initializeFilePage() {
             ) {
 
 
-                /* Maximum file size:
-                   25 MB
-                */
 
                 if (
                     file.size >
@@ -1752,18 +1652,14 @@ async function initializeFilePage() {
     );
 
 
-    /* =================================================
-       INITIAL RENDER
-    ================================================= */
+
 
     await renderFiles();
 
 }
 
 
-/* =====================================================
-   TYPING EFFECT
-===================================================== */
+
 
 function typingEffect() {
 
@@ -1884,9 +1780,7 @@ function typingEffect() {
 }
 
 
-/* =====================================================
-   SCROLL REVEAL
-===================================================== */
+
 
 function initializeScrollReveal() {
 
@@ -1956,9 +1850,7 @@ function initializeScrollReveal() {
 }
 
 
-/* =====================================================
-   ESCAPE KEY - CLOSE MODAL
-===================================================== */
+
 
 document.addEventListener(
     "keydown",
@@ -2000,9 +1892,6 @@ document.addEventListener(
 );
 
 
-/* =====================================================
-   PAGE LOAD
-===================================================== */
 
 document.addEventListener(
     "DOMContentLoaded",
