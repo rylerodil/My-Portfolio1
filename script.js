@@ -22,6 +22,11 @@ const permanentFiles = {
             name: "Laboratory 1 - RODIL_LAB1.pdf",
             file: "RODIL_LAB1.pdf",
             type: "application/pdf"
+        },
+        {
+            name: "Laboratory 2 - RODIL__Lab-Act1(2).pdf",
+             file: "RODIL__Lab-Act1(2).pdf",
+            type: "application/pdf"
         }
     ],
 
