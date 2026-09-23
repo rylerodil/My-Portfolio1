@@ -14,7 +14,24 @@ const permanentFiles = {
             name: "Quiz 1",
             file: "quiz1.png",
             type: "image/png"
-        }
+        },
+        {
+            name: "Quiz 2",
+            file: "Quiz2.png",
+            type: "image/png"
+        },
+        {
+            name: "Quiz 3",
+            file: "Quiz3.png",
+            type: "image/png"
+            
+        },
+        {
+            name: "Long Quiz",
+            file: "LongQuiz.png",
+            type: "Image.png"
+        },
+        
     ],
 
     laboratory: [
