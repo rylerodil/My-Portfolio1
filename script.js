@@ -44,7 +44,12 @@ const permanentFiles = {
             name: "Laboratory 2 - RODIL__Lab-Act1(2).pdf",
              file: "RODIL__Lab-Act1(2).pdf",
             type: "application/pdf"
-        }
+        },
+        {
+            name: "NETWORK SIMULATOR Laboratory 3  - RODIL_lab3",
+            file: "LABORATORY3.png",
+            type: "image/png"
+        },
     ],
 
     exam: [
