@@ -29,7 +29,7 @@ const permanentFiles = {
         {
             name: "Long Quiz",
             file: "LongQuiz.png",
-            type: "Image/png"
+            type: "image/png"
         }
         
     ],
