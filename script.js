@@ -48,7 +48,11 @@ const permanentFiles = {
     ],
 
     exam: [
-
+        {
+            name: "Prelim Exam",
+            file: "exams.jpg",
+            type: "image/jpg"
+        },
        
 
     ]
