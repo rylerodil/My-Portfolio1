@@ -30,8 +30,12 @@ const permanentFiles = {
             name: "Long Quiz",
             file: "LongQuiz.png",
             type: "image/png"
+        },
+        {
+            name: "Quiz 4",
+            file: "Quiz4.png",
+            type: "image/png"
         }
-        
     ],
 
     laboratory: [
