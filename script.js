@@ -35,6 +35,11 @@ const permanentFiles = {
             name: "Quiz 4",
             file: "Quiz4.png",
             type: "image/png"
+        },
+        {
+            name: "Quiz 5",
+            file: "Quiz5.png",
+            type: "image/png"
         }
     ],
 
