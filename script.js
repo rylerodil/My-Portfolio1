@@ -72,6 +72,11 @@ const permanentFiles = {
             file: "exams.jpg",
             type: "image/jpg"
         },
+        {
+            name: "Midterm Exam",
+            file: "Midterm Exam.png",
+            type: "image/png"
+        }
        
 
     ]
